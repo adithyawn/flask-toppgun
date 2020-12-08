@@ -10,6 +10,8 @@ from wtforms.validators import InputRequired, length, DataRequired
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from _mysql_exceptions import IntegrityError
+
 import xlrd
 import MySQLdb
 
@@ -265,13 +267,15 @@ def importreference():
 
         # Get the cursor, which is used to traverse the database, line by line
         cursor = database.cursor()
-
+        
         ####### INFRA ###########
 
         # KATEGORI WBS INFRA
+
         query_infra_kategori_wbs = """ REPLACE INTO kategori_wbs (id_kategori_wbs,kategori_wbs) VALUES (%s, %s)"""
 
         for i in range(1, sheet_infra.nrows):
+            
             id_kategori_wbs = sheet_infra.cell(i, 0).value
             kategori_wbs = sheet_infra.cell(i, 1).value
 
@@ -281,9 +285,11 @@ def importreference():
             # Execute sql Query
             cursor.execute(query_infra_kategori_wbs, values_infra_kategori_wbs)
 
-        # WBS SPESIFIK INFRA
-        query_infra_wbs_spesifik = """ REPLACE INTO wbs_spesifik (id_wbs_spesifik,wbs_spesifik,id_kategori_wbs) VALUES (%s, %s, %s)"""
 
+        # WBS SPESIFIK INFRA
+        
+        query_infra_wbs_spesifik = """ REPLACE INTO wbs_spesifik (id_wbs_spesifik,wbs_spesifik,id_kategori_wbs) VALUES (%s, %s, %s)"""
+    
         for i in range(1, sheet_infra.nrows):
             id_wbs_spesifik = sheet_infra.cell(i, 2).value
             wbs_spesifik = sheet_infra.cell(i, 3).value
@@ -297,6 +303,7 @@ def importreference():
             cursor.execute(query_infra_wbs_spesifik, values_infra_wbs_spesifik)
 
         # WBS LEVEL 2 INFRA
+        
         query_infra_wbs_level2 = """ REPLACE INTO wbs_level2 (id_wbs_level2,wbs_level2,id_wbs_spesifik) VALUES (%s, %s, %s)"""
 
         for i in range(1, sheet_infra.nrows):
@@ -312,6 +319,7 @@ def importreference():
             cursor.execute(query_infra_wbs_level2, values_infra_wbs_level2)
 
         # WBS LEVEL 3 INFRA
+        
         query_infra_wbs_level3 = """ REPLACE INTO wbs_level3 (id_wbs_level3,wbs_level3,id_wbs_level2) VALUES (%s, %s, %s)"""
 
         for i in range(1, sheet_infra.nrows):
@@ -329,6 +337,7 @@ def importreference():
         ####### GEDUNG ###########
 
         # KATEGORI WBS GEDUNG
+        
         query_gedung_kategori_wbs = """ REPLACE INTO kategori_wbs (id_kategori_wbs,kategori_wbs) VALUES (%s, %s)"""
 
         for i in range(1, sheet_gedung.nrows):
@@ -339,10 +348,11 @@ def importreference():
             values_gedung_kategori_wbs = (id_kategori_wbs, kategori_wbs)
 
             # Execute sql Query
-            cursor.execute(query_gedung_kategori_wbs,
-                           values_gedung_kategori_wbs)
+            cursor.execute(query_gedung_kategori_wbs, values_gedung_kategori_wbs)
+ 
 
         # WBS SPESIFIK GEDUNG
+        
         query_gedung_wbs_spesifik = """ REPLACE INTO wbs_spesifik (id_wbs_spesifik,wbs_spesifik,id_kategori_wbs) VALUES (%s, %s, %s)"""
 
         for i in range(1, sheet_gedung.nrows):
@@ -355,25 +365,28 @@ def importreference():
                 id_wbs_spesifik, wbs_spesifik, id_kategori_wbs)
 
             # Execute sql Query
-            cursor.execute(query_gedung_wbs_spesifik,
-                           values_gedung_wbs_spesifik)
+            cursor.execute(query_gedung_wbs_spesifik, values_gedung_wbs_spesifik)
+ 
 
         # WBS LEVEL 2 GEDUNG
-        query_gedung_wbs_level2 = """ REPLACE INTO wbs_level2 (id_wbs_level2,wbs_level2,id_wbs_spesifik) VALUES (%s, %s, %s)"""
+        
+            query_gedung_wbs_level2 = """ REPLACE INTO wbs_level2 (id_wbs_level2,wbs_level2,id_wbs_spesifik) VALUES (%s, %s, %s)"""
 
-        for i in range(1, sheet_gedung.nrows):
-            id_wbs_level2 = sheet_gedung.cell(i, 4).value
-            wbs_level2 = sheet_gedung.cell(i, 5).value
-            id_wbs_spesifik = sheet_gedung.cell(i, 2).value
+            for i in range(1, sheet_gedung.nrows):
+                id_wbs_level2 = sheet_gedung.cell(i, 4).value
+                wbs_level2 = sheet_gedung.cell(i, 5).value
+                id_wbs_spesifik = sheet_gedung.cell(i, 2).value
 
-            # Assign values from each row
-            values_gedung_wbs_level2 = (
-                id_wbs_level2, wbs_level2, id_wbs_spesifik)
+                # Assign values from each row
+                values_gedung_wbs_level2 = (
+                    id_wbs_level2, wbs_level2, id_wbs_spesifik)
 
-            # Execute sql Query
-            cursor.execute(query_gedung_wbs_level2, values_gedung_wbs_level2)
+                # Execute sql Query
+                cursor.execute(query_gedung_wbs_level2, values_gedung_wbs_level2)
+                
 
         # WBS LEVEL 3 GEDUNG
+        
         query_gedung_wbs_level3 = """ REPLACE INTO wbs_level3 (id_wbs_level3,wbs_level3,id_wbs_level2) VALUES (%s, %s, %s)"""
 
         for i in range(1, sheet_gedung.nrows):
@@ -397,9 +410,10 @@ def importreference():
         # Close the database connection
         # database.close()
 
-    return redirect(url_for('settings'))
+        
+        return redirect(url_for('settings'))
 
-##################	BATAS IMPORT ####################
+    ##################	BATAS IMPORT ####################
 
 ######################## JSON #####################
 
