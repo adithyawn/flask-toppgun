@@ -1,0 +1,21 @@
+                            <div class="form-group d-flex">
+                                <label class="form-label-width mr-5 text-start align-self-end" for="add-divisi">Divisi</label>
+                                {{form.select_divisi (class="form-control")}}
+                            </div>
+
+                            <div class="form-group d-flex">
+                                <label class="form-label-width mr-5 text-start align-self-end" for="add-kategori-wbs">Kategori WBS</label>
+                                {{ form.select_kategori_wbs(class="form-control") }}
+                            </div>
+                            
+                            <div class="form-group d-flex">
+                                <label class="form-label-width mr-5 text-start align-self-end" for="add-wbs-spesifik">WBS Spesifik</label>
+                                {{ form.select_wbs_spesifik(class="form-control") }}
+                            </div>
+
+                            <div class="form-group d-flex">
+                                <label class="form-label-width mr-5 text-start align-self-end" for="add-status">Status</label>
+                                {{ form.select_status(class="form-control") }}
+                            </div>
+
+, divisi=form.select_divisi.data, kategori_wbs=form.select_kategori_wbs.data, wbs_spesifik=form.select_wbs_spesifik.data, status=form.select_status.data

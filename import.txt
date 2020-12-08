@@ -1,0 +1,151 @@
+#################### FUNGSI IMPORT EXCEL ####################
+
+
+@app.route('/importreference', methods=['POST'])
+def importreference():
+
+    if request.method == 'POST':
+        fileuploaded = request.form['source']
+
+        # Open the workbook and define the worksheet
+        book = xlrd.open_workbook(fileuploaded)
+        sheet_infra = book.sheet_by_name("infra")
+        sheet_gedung = book.sheet_by_name("gedung")
+
+        # Get the cursor, which is used to traverse the database, line by line
+        cursor = database.cursor()
+
+        ####### INFRA ###########
+
+        # KATEGORI WBS INFRA
+        query_infra_kategori_wbs = """ REPLACE INTO kategori_wbs (id_kategori_wbs,kategori_wbs) VALUES (%s, %s)"""
+
+        for i in range(1, sheet_infra.nrows):
+            id_kategori_wbs = sheet_infra.cell(i, 0).value
+            kategori_wbs = sheet_infra.cell(i, 1).value
+
+            # Assign values from each row
+            values_infra_kategori_wbs = (id_kategori_wbs, kategori_wbs)
+
+            # Execute sql Query
+            cursor.execute(query_infra_kategori_wbs, values_infra_kategori_wbs)
+
+        # WBS SPESIFIK INFRA
+        query_infra_wbs_spesifik = """ REPLACE INTO wbs_spesifik (id_wbs_spesifik,wbs_spesifik,id_kategori_wbs) VALUES (%s, %s, %s)"""
+
+        for i in range(1, sheet_infra.nrows):
+            id_wbs_spesifik = sheet_infra.cell(i, 2).value
+            wbs_spesifik = sheet_infra.cell(i, 3).value
+            id_kategori_wbs = sheet_infra.cell(i, 0).value
+
+            # Assign values from each row
+            values_infra_wbs_spesifik = (
+                id_wbs_spesifik, wbs_spesifik, id_kategori_wbs)
+
+            # Execute sql Query
+            cursor.execute(query_infra_wbs_spesifik, values_infra_wbs_spesifik)
+
+        # WBS LEVEL 2 INFRA
+        query_infra_wbs_level2 = """ REPLACE INTO wbs_level2 (id_wbs_level2,wbs_level2,id_wbs_spesifik) VALUES (%s, %s, %s)"""
+
+        for i in range(1, sheet_infra.nrows):
+            id_wbs_level2 = sheet_infra.cell(i, 4).value
+            wbs_level2 = sheet_infra.cell(i, 5).value
+            id_wbs_spesifik = sheet_infra.cell(i, 2).value
+
+            # Assign values from each row
+            values_infra_wbs_level2 = (
+                id_wbs_level2, wbs_level2, id_wbs_spesifik)
+
+            # Execute sql Query
+            cursor.execute(query_infra_wbs_level2, values_infra_wbs_level2)
+
+        # WBS LEVEL 3 INFRA
+        query_infra_wbs_level3 = """ REPLACE INTO wbs_level3 (id_wbs_level3,wbs_level3,id_wbs_level2) VALUES (%s, %s, %s)"""
+
+        for i in range(1, sheet_infra.nrows):
+            id_wbs_level3 = sheet_infra.cell(i, 6).value
+            wbs_level3 = sheet_infra.cell(i, 7).value
+            id_wbs_level2 = sheet_infra.cell(i, 4).value
+
+            # Assign values from each row
+            values_infra_wbs_level3 = (
+                id_wbs_level3, wbs_level3, id_wbs_level2)
+
+            # Execute sql Query
+            cursor.execute(query_infra_wbs_level3, values_infra_wbs_level3)
+
+        ####### GEDUNG ###########
+
+        # KATEGORI WBS GEDUNG
+        query_gedung_kategori_wbs = """ REPLACE INTO kategori_wbs (id_kategori_wbs,kategori_wbs) VALUES (%s, %s)"""
+
+        for i in range(1, sheet_gedung.nrows):
+            id_kategori_wbs = sheet_gedung.cell(i, 0).value
+            kategori_wbs = sheet_gedung.cell(i, 1).value
+
+            # Assign values from each row
+            values_gedung_kategori_wbs = (id_kategori_wbs, kategori_wbs)
+
+            # Execute sql Query
+            cursor.execute(query_gedung_kategori_wbs,
+                           values_gedung_kategori_wbs)
+
+        # WBS SPESIFIK GEDUNG
+        query_gedung_wbs_spesifik = """ REPLACE INTO wbs_spesifik (id_wbs_spesifik,wbs_spesifik,id_kategori_wbs) VALUES (%s, %s, %s)"""
+
+        for i in range(1, sheet_gedung.nrows):
+            id_wbs_spesifik = sheet_gedung.cell(i, 2).value
+            wbs_spesifik = sheet_gedung.cell(i, 3).value
+            id_kategori_wbs = sheet_gedung.cell(i, 0).value
+
+            # Assign values from each row
+            values_gedung_wbs_spesifik = (
+                id_wbs_spesifik, wbs_spesifik, id_kategori_wbs)
+
+            # Execute sql Query
+            cursor.execute(query_gedung_wbs_spesifik,
+                           values_gedung_wbs_spesifik)
+
+        # WBS LEVEL 2 GEDUNG
+        query_gedung_wbs_level2 = """ REPLACE INTO wbs_level2 (id_wbs_level2,wbs_level2,id_wbs_spesifik) VALUES (%s, %s, %s)"""
+
+        for i in range(1, sheet_gedung.nrows):
+            id_wbs_level2 = sheet_gedung.cell(i, 4).value
+            wbs_level2 = sheet_gedung.cell(i, 5).value
+            id_wbs_spesifik = sheet_gedung.cell(i, 2).value
+
+            # Assign values from each row
+            values_gedung_wbs_level2 = (
+                id_wbs_level2, wbs_level2, id_wbs_spesifik)
+
+            # Execute sql Query
+            cursor.execute(query_gedung_wbs_level2, values_gedung_wbs_level2)
+
+        # WBS LEVEL 3 GEDUNG
+        query_gedung_wbs_level3 = """ REPLACE INTO wbs_level3 (id_wbs_level3,wbs_level3,id_wbs_level2) VALUES (%s, %s, %s)"""
+
+        for i in range(1, sheet_gedung.nrows):
+            id_wbs_level3 = sheet_gedung.cell(i, 6).value
+            wbs_level3 = sheet_gedung.cell(i, 7).value
+            id_wbs_level2 = sheet_gedung.cell(i, 4).value
+
+            # Assign values from each row
+            values_gedung_wbs_level3 = (
+                id_wbs_level3, wbs_level3, id_wbs_level2)
+
+            # Execute sql Query
+            cursor.execute(query_gedung_wbs_level3, values_gedung_wbs_level3)
+
+        # Close the cursor
+        cursor.close()
+
+        # Commit the transaction
+        database.commit()
+
+        # Close the database connection
+        # database.close()
+
+    return redirect(url_for('settings'))
+
+##################	BATAS IMPORT ####################

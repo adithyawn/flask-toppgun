@@ -1,0 +1,77 @@
+DISKIP DULU KEBANYAKAN :
+5. Merubah alamat referensi file css menjadi :
+    <link rel="stylesheet" href="{{url_for('static', filename = 'bs/css/united.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename = '/css/style.css')}}">
+
+6. Merubah alamat file javascript :
+    <!-- jQuery -->
+    <script src="{{ url_for ('static', filename ='bs/js/jquery.min.js')}}"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="{{ url_for ('static', filename ='bs/js/bootstrap.min.js')}}"></script>
+
+
+
+
+SELECT DISTINCT user.name AS user_name FROM user
+又或者以下的寫法也是一樣的效果：
+
+from sqlalchemy import distinct
+
+
+q = session.query(distinct(User.name).label('uniq_username'))
+for r in q.all():
+    print(r)
+上述 SQL 語句為：
+
+SELECT DISTINCT user.name AS uniq_username FROM user
+如果要同時 DISTINCT 多個欄位：
+
+q = session.query(User.name, User.id).distinct()
+for r in q.all():
+    print(r)
+其 SQL 語句為：
+
+SELECT DISTINCT user.name AS user_name, user.id AS user_id FROM user
+如果是想計算不重複的個數，則可以加上 func.count() 幫忙：
+
+from sqlalchemy import func
+from sqlalchemy import distinct
+
+session.query(func.count(distinct(User.name)))
+
+SELECT DISTINCT namakolom from namatabel
+
+q = session.query(distinct)
+
+    # q = session.query.(Wbs.data_wbs_spesifik).distinct()
+    # form.kategori_wbs.query = q
+
+# session.query(User.name, User.id).distinct()
+
+    # def __repr__(self):
+    #     return '{}'.format(self.data_divisi)
+
+
+
+
+    if form.validate_on_submit():
+        
+        new_user = User(name=form.name.data, username=form.username.data, password=generate_password_hash(form.password.data), join_date=datetime.now())
+        db.session.add(new_user)
+        db.session.commit()
+        
+        return redirect(url_for('settings'))
+    else :
+        return 'gagal'    
+
+
+    if request.method == 'POST':
+        if form.validate():
+            
+            new_user = User(name=form.name.data, username=form.username.data, password=generate_password_hash(form.password.data), join_date=datetime.now())
+            db.session.add(new_user)
+            db.session.commit()
+            
+            return redirect(url_for('settings'))
+        else :
+            return 'gagal'

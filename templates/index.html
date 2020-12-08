@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+
+    <!-- Local CSS Bootstrap-->
+    <link rel="stylesheet" href="{{url_for('static', filename = 'css/bootstrap.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename = 'css/style.css')}}">
+
+    <title>Topp Gun</title>
+</head>
+<body>
+    <header id="login-page">
+        <div class="dark-overlay">
+            <div class="container login-inner text-white">
+                <div class="row">
+                    <div class="col-lg-8 m-auto text-center">
+                        <h1 class="header mb-1">TOPP GUN</h1>
+                        <h2 class="sub-header mb-4">Expert Submission</h2>
+                        <p class="sub-sub-header mb-5 px-5">TOPP GUN adalah fitur terbaru Knowledge Center. Berisi strategi - strategi Proyek yang terdiri atas Inovasi, Technology, Value Engineering, Claim dan Strategi Khusus. TOPP GUN akan mempermudah Proyek menentukan Strategi yang tepat berdasarkan Best Practice dari seluruh karyawan PT PP berpengalaman.</p>
+                        <button class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#loginModal">Mulai Berkontribusi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- MODALS -->
+    <div id="login-modal">
+        <div class="modal fade" id="loginModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <!-- <div class="modal-header">
+                        <button class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div> -->
+                    <!-- Modals Body -->
+                    <div class="modal-body">
+                        <form action="#">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input id="username" type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input id="password" type="password" class="form-control">
+                            </div>
+                            <input type="submit" value="Login" class="btn btn-primary btn-block btn-rounded" href="input.html">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <!-- JQuery 3 Minified -->
+    <script src="http://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+    <!-- Popper JS Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!-- Local JS -->
+    <script>
+        // Get current year for copyright
+        $('#year').text(new Date().getFullYear());
+    </script>
+
+</body>
+</html>
