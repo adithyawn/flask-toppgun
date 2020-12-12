@@ -75,3 +75,43 @@ q = session.query(distinct)
             return redirect(url_for('settings'))
         else :
             return 'gagal'
+
+
+
+
+
+@app.route('/settings' , methods=['GET','POST'])
+@login_required
+def settings():
+    form = AddUserForm()
+
+    form.select_kategori_wbs.choices = [
+        ("", "---")]+[(i.id_kategori_wbs, i.kategori_wbs) for i in KategoriWbs.query.all()]
+
+    results = db.session.query(InputWbs, WbsLevel3, WbsLevel2, WbsSpesifik, KategoriWbs).select_from(
+        InputWbs).join(WbsLevel3).join(WbsLevel2).join(WbsSpesifik).join(KategoriWbs).all()
+
+    if request.method == 'POST':
+    # if form.validate_on_submit():
+        # if form.validate():
+
+    # if form.validate_on_submit() and request.method == 'POST':
+        # if request.method == 'POST':
+
+    # if form.validate():
+    #     if request.method == 'POST':      
+    #         new_user = User(nama=form.nama.data, username=form.username.data, password=generate_password_hash(form.password.data), join_date=datetime.now())
+    #         db.session.add(new_user)
+    #         db.session.commit()
+
+    #         return 'sukses'
+
+    # if request.method == 'POST' and form.validate_on_submit():      
+        new_user = User(nama=form.nama.data, username=form.username.data, password=generate_password_hash(form.password.data), join_date=datetime.now(), divisi=form.select_divisi.data, kategori_wbs=form.select_kategori_wbs.data, wbs_spesifik=form.select_wbs_spesifik.data, status=form.select_status.data)
+        db.session.add(new_user)
+        db.session.commit()
+
+        return 'sukses'
+
+
+    return render_template('settings.html',form=form, results=results)

@@ -32,16 +32,20 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item px-2 ml-auto">
-                        <a href="input.html" class="nav-link">Topp Gun Anda</a>
+                        <a href="{{ url_for('profile') }}" class="nav-link">Topp Gun Anda</a>
                     </li>
                     <li class="nav-item px-2 ml-auto">
                         <a href="#" class="nav-link active">Rekap Topp Gun</a>
                     </li>
+
+                    {% if current_user.status == 1 %}
                     <li class="nav-item px-2 ml-auto">
-                        <a href="settings.html" class="nav-link ">Settings</a>
+                        <a href="{{ url_for('settings')}}" class="nav-link">Settings</a>
                     </li>
+                    {% endif %}
+
                     <li class="nav-item px-2 ml-auto">
-                        <a href="login.html" class="nav-link"> <i class="fas fa-power-off"></i> Logout</a>
+                        <a href="{{ url_for('logout') }}" class="nav-link"> <i class="fas fa-power-off"></i> Logout</a>
                     </li>
                 </ul>
             </div>
@@ -234,18 +238,15 @@
 
 
     <!-- FOOTER -->
-    <footer id="main-footer" class="margin-footer bg-dark text-white">
+    <footer id="main-footer" class="margin-footer bg-dark text-white py-2">
         <div class="container">
             <div class="row text-center">
-                <div class="col-md-6 m-auto">
+                <div class="col-md-6 m-auto ">
                     <p class="m-0">
                         Copyright &copy;
                         <span id="year"></span>
+                        Divisi Stratek
                     </p>
-                    <p class="mb-2">
-                        Developed by : Divisi Stratek - code by : Departemen KM
-                    </p>
-
                 </div>
             </div>
         </div>

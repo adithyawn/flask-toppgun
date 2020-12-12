@@ -2,6 +2,8 @@ ALERT LANUT ATAU TIDAK JIKA ADA DUPLIKASI
 
 #################### FUNGSI IMPORT EXCEL ####################
 
+from _mysql_exceptions import IntegrityError
+
 
 @app.route('/importreference', methods=['POST'])
 def importreference():

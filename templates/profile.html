@@ -38,13 +38,17 @@
                         <a href="#" class="nav-link active">Topp Gun Anda</a>
                     </li>
                     <li class="nav-item px-2 ml-auto">
-                        <a href="rekap.html" class="nav-link">Rekap Topp Gun</a>
+                        <a href="{{ url_for('summary') }}" class="nav-link">Rekap Topp Gun</a>
                     </li>
+
+                    {% if current_user.status == 1 %}
                     <li class="nav-item px-2 ml-auto">
-                        <a href="settings.html" class="nav-link">Settings</a>
+                        <a href="{{ url_for('settings')}}" class="nav-link">Settings</a>
                     </li>
+                    {% endif %}
+
                     <li class="nav-item px-2 ml-auto">
-                        <a href="login.html" class="nav-link"> <i class="fas fa-power-off"></i> Logout</a>
+                        <a href="{{ url_for('logout') }}" class="nav-link"> <i class="fas fa-power-off"></i> Logout</a>
                     </li>
                 </ul>
             </div>
@@ -55,70 +59,69 @@
         <div class="container m-auto ">
             <div class="row">
                 <div class="col-lg-8 m-auto">
-                    <p class="mb-5">Halo User,</p>
+                    <p class="mb-5">Halo {{current_user.nama}} !</p>
                     <h4 class="pb-3 border-line-bottom  font-weight-normal">Input TOPP GUN</h4>
                 </div>
 
                 <div class="col-lg-8 m-auto">
-                    <form action="" class="">
+                    <form action="{{ url_for('submitform')}}" method="POST" class="" enctype="multipart/form-data">
+
+                        {{ form.csrf_token }}
 
                         <div class="form-group d-flex">
-                            <label class="form-label-width mr-5 text-start align-self-end" for="kategori-wbs">Kategori WBS</label>
-                            <input type="kategori-wbs" id="kategori-wbs" class="form-control" placeholder="By Default" readonly>
+                            <label class="form-label-width mr-5 text-start align-self-end" for="select_kategori_wbs">Kategori WBS</label>
+                            {{ form.select_kategori_wbs(class="form-control", disabled="disabled")}}                                                            
                         </div>
 
                         <div class="form-group d-flex">
-                            <label class="form-label-width mr-5 text-start align-self-end" for="wbs-spesifik">WBS Spesifik</label>
-                            <input type="wbs-spesifik" id="wbs-spesifik" class="form-control" placeholder="By Default" readonly>
+                            <label class="form-label-width mr-5 text-start align-self-end" for="select_wbs_spesifik">WBS Spesifik</label>
+                            {{ form.select_wbs_spesifik(class="form-control", disabled="disabled")}}                                                              
                         </div>
 
                         <div class="form-group d-flex">
-                            <label class="form-label-width mr-5 text-start align-self-end" for="wbs-level2">WBS Level 2</label>
-                            <select name="wbs-level2" id="wbs-level2" class="form-control">
-                                <option value="">Opsi 1</option>
-                                <option value="">Opsi 2</option>
-                            </select>
+                            <label class="form-label-width mr-5 text-start align-self-end" for="select_wbs_level2">WBS Level 2</label>
+                            {{ form.select_wbs_level2(class="form-control" )}} 
+
                         </div>
 
                         <div class="form-group d-flex">
-                            <label class="form-label-width mr-5 text-start align-self-end" for="wbs-level3">WBS Level 3</label>
-                            <select name="wbs-level3" id="wbs-level3" class="form-control">
-                                <option value="">Opsi 1</option>
-                                <option value="">Opsi 2</option>
-                            </select>
+                            <label class="form-label-width mr-5 text-start align-self-end" for="select_wbs_level3">WBS Level 3</label>
+                            {{ form.select_wbs_level3(class="form-control" )}} 
+
                         </div>
 
                         <div class="form-group d-flex">
                             <label class="form-label-width mr-5 text-start align-self-sm-center" for="judul">Judul</label>
-                            <textarea name="" id="judul" class="form-control" rows="2" placeholder="Isi Judul"></textarea>
+                            {{ form.judul(class="form-control" , placeholder="Isi Judul", rows=2)}} 
                         </div>
 
                         <div class="form-group d-flex">
                             <label class="form-label-width mr-5 text-start align-self-sm-center" for="deskripsi">Deskripsi</label>
-                            <textarea name="" id="deskripsi" class="form-control" rows="5"></textarea>
+                            {{ form.deskripsi(class="form-control" , placeholder="Isi Deskripsi", rows=7)}} 
                         </div>
                         
                         <div class="form-group d-flex">
                             <label class="form-label-width mr-5 text-start align-self-end" for="jenis-toppgun">Jenis Topp Gun</label>
-                            <select name="jenis-toppgun" id="jenis-toppgun" class="form-control">
-                                <option value="">Opsi 1</option>
-                                <option value="">Opsi 2</option>
-                            </select>
+                            {{ form.select_jenis_toppgun(class="form-control" )}} 
                         </div>
 
                         <div class="form-group d-flex">
                             <label class="form-label-width mr-5 text-start align-self-end" for="kategori-lean">Kategori Lean</label>
-                            <select name="kategori-lean" id="kategori-lean" class="form-control">
-                                <option value="">Opsi 1</option>
-                                <option value="">Opsi 2</option>
-                            </select>                            
+                            {{ form.select_kategori_lean(class="form-control" )}} 
+                            
                         </div>
 
                         <div class="form-group d-flex">
                             <label class="form-label-width mr-3 text-start align-self-start" for="file">Input File Jika Ada</label>
                             <div>
-                                <input class="form-control-file " type="file" id="file">
-                                <small class="form-text text-muted" id="fileHelp">format pdf atau ppt</small>
+                                {{ form.upload_file (class="form-control-file")}}
+                                <ul>
+                                    {% for error in form.upload_file.errors %}
+                                        <li style="color:red;">{{error}}</li>
+                                    {% endfor %}
+                                </ul>
+                                <small class="form-text text-muted" id="fileHelp">format .pdf atau .pptx</small>
+
                             </div>
                         </div>
 
@@ -127,7 +130,8 @@
 
                         <div class="form-group d-flex">
                             <label class="form-label-width mr-5 text-start align-self-sm-center" for="sebutkan">Sebutkan</label>
-                            <textarea name="" id="sebutkan" class="form-control" rows="5" placeholder="ex : Gedung - pekerjaan pondasi , Infra Jalan - pekerjaan aspal"></textarea>
+                            {{ form.sebutkan(class="form-control" , placeholder="ex: Gedung - pekerjaan pondasi, Infra Jalan - pekerjaan aspal", rows=7)}} 
+
                         </div>
 
                         <!-- PENGEMBANGAN SELANJUTNYA -->
@@ -160,7 +164,7 @@
 
                         <!-- BATAS PENGEMBANGAN SELANJUTNYA -->
 
-                        <button class="btn btn-primary form-control my-3">Submit</button>
+                        <button type="submit" class="btn btn-primary form-control my-3">Submit</button>
 
                         <h5 class="font-weight-normal text-center mt-5">List Top Gun yang Sudah Anda Submit</h5>
                         <hr>
@@ -168,6 +172,7 @@
                 </div>
             </div>
         </div>
+
     </section>
 
     <section class="table-input">
@@ -178,6 +183,8 @@
                         <th style="width: 5%;">No</th>
                         <th style="width: 20%;">Judul</th>
                         <th style="width: 25%;">Deskripsi</th>
+                        <th style="width: 15%;">Kategori WBS</th>
+                        <th style="width: 15%;">WBS Spesifik</th>
                         <th style="width: 15%;">WBS Level 2</th>
                         <th style="width: 15%;">WBS Level 3</th>
                         <th style="width: 15%;">WBS Terkait</th>
@@ -187,6 +194,7 @@
                 <tbody>
 
                     <!-- Start List -->
+                    {% for i in results %}                        
                     <tr style="height: 200px;" >
                         <td>
                             <div class="max-lines">
@@ -195,35 +203,35 @@
                         </td>
                         <td>
                             <div class="max-lines">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ac mollis mauris, convallis ullamcorper dolor. Sed eget tincidunt odio, ac aliquet nunc
                             </div>
                         </td>
                         <td>
                             <div class="max-lines">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ac mollis mauris, convallis ullamcorper dolor. Sed eget tincidunt odio, ac aliquet nunc. Nam vel luctus odio. Sed laoreet sagittis odio, ut aliquet dolor gravida accumsan. Pellentesque vitae vulputate magna. Praesent eget aliquam leo. Mauris quis hendrerit felis, gravida cursus felis. Ut efficitur est nec nulla placerat, non vehicula nisl ultricies. Phasellus ut purus euismod, hendrerit tellus ut, suscipit mi. Nunc eu purus eget velit vehicula posuere quis at lectus. Etiam eu lectus ac orci aliquam convallis auctor nec mauris. Integer malesuada elit sed justo placerat, semper laoreet augue blandit. Sed imperdiet eget nibh sed lobortis.
                             </div>
                         </td>
                         <td>
                             <div class="max-lines">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ac mollis mauris, convallis ullamcorper dolor.
+                                {{i.KategoriWbs.kategori_wbs}}
                             </div>
                         </td>
                         <td>
                             <div class="max-lines">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ac mollis mauris, convallis ullamcorper dolor.
+                                {{i.WbsSpesifik.wbs_spesifik}}
                             </div>
                         </td>
                         <td>
                             <div class="max-lines">
-                                Lorem ipsum dolor sit
+                                {{i.WbsLevel2.wbs_level2}}
                             </div>
-                            <br>
+                        </td>
+                        <td>
                             <div class="max-lines">
-                                Lorem ipsum dolor sit
+                                {{i.WbsLevel3.wbs_level3}}
                             </div>
-                            <br>
+                        </td>
+                        <td>
                             <div class="max-lines">
-                                Lorem ipsum dolor sit 
+
                             </div>
                         </td>
                         <td class="text-center">
@@ -232,6 +240,8 @@
                             <button type="button" class="border-0 bg-transparent form-control font-small text-left" data-toggle="modal" data-target="#editModal"> <i class="fas fa-pen text-primary"></i> Edit </button>
                         </td>
                     </tr>
+                    {% endfor %}
+
                     <!-- End List -->
 
 
@@ -352,25 +362,44 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <!-- FOOTER -->
-    <footer id="main-footer" class="margin-footer bg-dark text-white">
+    <footer id="main-footer" class="bg-dark text-white py-2 margin-footer">
         <div class="container">
             <div class="row text-center">
-                <div class="col-md-6 m-auto">
+                <div class="col-md-6 m-auto ">
                     <p class="m-0">
                         Copyright &copy;
                         <span id="year"></span>
+                        Divisi Stratek
                     </p>
-                    <p class="mb-2">
-                        Developed by : Divisi Stratek - code by : Departemen KM
-                    </p>
-
                 </div>
             </div>
         </div>
     </footer>
+
+    <script>
+
+        wbs_level2_select = document.getElementById('select_wbs_level2');
+        wbs_level3_select = document.getElementById('select_wbs_level3');
+        
+        wbs_level2_select.onchange = function(){
+            wbs_level2 = wbs_level2_select.value; 
+            fetch('/wbs_level3/' + wbs_level2).then(function(response){
+                response.json().then(function(data) {
+                    optionHTML = '<option value="-">' + '--' + '</option>'+''
+                    for (wbs_level3 of data.wbs_level3_wbs_spesifik) {
+                    optionHTML += '<option value="' + wbs_level3.id +'">' + wbs_level3.name + '</option>'
+                    }
+                    wbs_level3_select.innerHTML = optionHTML;
+                });
+            });
+        }
+    
+    
+    </script>
 
     <!-- JQuery 3 Minified -->
     <script src="http://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
