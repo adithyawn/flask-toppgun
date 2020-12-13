@@ -45,6 +45,8 @@ def login():
 @login_required
 def profile():
 
+    current_user_id = current_user.id
+
     user_id_kategori_wbs = current_user.kategori_wbs
     user_kategori_wbs = KategoriWbs.query.filter_by(id_kategori_wbs=user_id_kategori_wbs).first()
 
@@ -65,13 +67,15 @@ def profile():
     form.select_kategori_wbs.choices =[(user_kategori_wbs.id_kategori_wbs, user_kategori_wbs.kategori_wbs)]
     form.select_wbs_spesifik.choices =[(user_wbs_spesifik.id_wbs_spesifik, user_wbs_spesifik.wbs_spesifik)]
 
-    # results = db.session.query(InputWbs, WbsLevel3, WbsLevel2, WbsSpesifik, KategoriWbs).select_from(
-    #     InputWbs).join(WbsLevel3).join(WbsLevel2).join(WbsSpesifik).join(KategoriWbs).all()
-
     results = db.session.query(InputWbs, WbsLevel3, WbsLevel2, WbsSpesifik, KategoriWbs).select_from(
         InputWbs).join(WbsLevel3).join(WbsLevel2).join(WbsSpesifik).join(KategoriWbs).all()
 
-    return render_template('profile.html',current_user=current_user, user_kategori_wbs=user_kategori_wbs, user_wbs_spesifik=user_wbs_spesifik, form=form, results=results)
+    recap = db.session.query(Post, KategoriWbs, WbsSpesifik, WbsLevel2, WbsLevel3, JenisToppgun, KategoriLean).select_from(Post).join(KategoriWbs).join(WbsSpesifik).join(WbsLevel2).join(WbsLevel3).join(JenisToppgun).join(KategoriLean).filter(Post.user_id == current_user_id).all()
+
+    # results = Post.query.all()
+
+    # return '{}'.format(type(results))
+    return render_template('profile.html',current_user=current_user, user_kategori_wbs=user_kategori_wbs, user_wbs_spesifik=user_wbs_spesifik, form=form, results=results, recap=recap)
 
 
 # class WbsLevel2(db.Model):
@@ -97,7 +101,7 @@ def settings():
     user_status = current_user.status
 
     if user_status != 1 :
-        return render_template('summary.html')
+        return render_template('profile.html')
 
     else :
 
@@ -106,18 +110,17 @@ def settings():
         form.select_kategori_wbs.choices = [
             ("", "---")]+[(i.id_kategori_wbs, i.kategori_wbs) for i in KategoriWbs.query.all()]
 
-        results = db.session.query(InputWbs, WbsLevel3, WbsLevel2, WbsSpesifik, KategoriWbs).select_from(
-            InputWbs).join(WbsLevel3).join(WbsLevel2).join(WbsSpesifik).join(KategoriWbs).all()
+        results = db.session.query(InputWbs, WbsLevel3, WbsLevel2, WbsSpesifik, KategoriWbs).select_from(InputWbs).join(WbsLevel3).join(WbsLevel2).join(WbsSpesifik).join(KategoriWbs).all()
 
-        if request.method == 'POST':
-        
-            new_user = User(nama=form.nama.data, username=form.username.data, password=generate_password_hash(form.password.data), join_date=datetime.now(), divisi=form.select_divisi.data, kategori_wbs=form.select_kategori_wbs.data, wbs_spesifik=form.select_wbs_spesifik.data, status=form.select_status.data)
-            db.session.add(new_user)
-            db.session.commit()
+    if request.method == 'POST':
+    
+        new_user = User(nama=form.nama.data, username=form.username.data, password=generate_password_hash(form.password.data), join_date=datetime.now(), divisi=form.select_divisi.data, kategori_wbs=form.select_kategori_wbs.data, wbs_spesifik=form.select_wbs_spesifik.data, status=form.select_status.data)
+        db.session.add(new_user)
+        db.session.commit()
 
-            return 'sukses'
+        return 'sukses'
 
-        return render_template('settings.html',form=form, results=results)
+    return render_template('settings.html',form=form, results=results)
 
 @app.route('/logout')
 @login_required

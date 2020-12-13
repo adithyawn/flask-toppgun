@@ -194,19 +194,21 @@
                 <tbody>
 
                     <!-- Start List -->
-                    {% for i in results %}                        
+                    {% for i in recap %}                        
                     <tr style="height: 200px;" >
                         <td>
                             <div class="max-lines">
-                                <p class="text-center">1</p>
+                                {{i.KategoriWbs.id}}
                             </div>
                         </td>
                         <td>
                             <div class="max-lines">
+                                {{i.Post.post_judul}}
                             </div>
                         </td>
                         <td>
                             <div class="max-lines">
+                                {{i.Post.post_deskripsi}}
                             </div>
                         </td>
                         <td>
@@ -231,11 +233,11 @@
                         </td>
                         <td>
                             <div class="max-lines">
-
+                                {{i.Post.post_wbs_terkait}}
                             </div>
                         </td>
                         <td class="text-center">
-                            <a href="#" class="border-0 bg-transparent form-control font-small text-left"><i class="fas fa-eye font-small"></i> File</a>
+                            <a href="{{i.Post.post_file_url}}" class="border-0 bg-transparent form-control font-small text-left"><i class="fas fa-eye font-small"></i> File</a>
                             <button type="button" class="border-0 bg-transparent form-control font-small text-left" data-toggle="modal" data-target="#deleteModal"> <i class="fas fa-trash text-danger font-small"></i> Delete </button>
                             <button type="button" class="border-0 bg-transparent form-control font-small text-left" data-toggle="modal" data-target="#editModal"> <i class="fas fa-pen text-primary"></i> Edit </button>
                         </td>
@@ -364,6 +366,33 @@
         </div>
 
     </div>
+
+
+    <div>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">No</th>
+                <th scope="col">Kategori WBS</th>
+                <th scope="col">WBS Spesifik</th>
+                <th scope="col">WBS Level 2</th>
+                <th scope="col">WBS Level 3</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for j in recap %}    
+                <tr>
+                    <td>{{j.WbsLevel3.id}}</td>
+                    <td>{{j.KategoriWbs.kategori_wbs}}</td>
+                    <td>{{j.post_kategori_wbs}}</td>
+                    <td>{{j.post_wbs_spesifik}}</td>
+                    <td>{{j.post_judul}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+    </div>
+
 
     <!-- FOOTER -->
     <footer id="main-footer" class="bg-dark text-white py-2 margin-footer">

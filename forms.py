@@ -31,8 +31,8 @@ class InputForm(FlaskForm):
     select_wbs_level3 = SelectField('select_wbs_level3', choices=[])
     judul = TextAreaField()
     deskripsi = TextAreaField()
-    select_jenis_toppgun = SelectField('select_jenis_toppgun', choices=[("1", "Inovasi"),("2", "Technology")])
-    select_kategori_lean = SelectField('select_kategori_lean', choices=[("1", "Defect"),("2", "Waste")])
+    select_jenis_toppgun = SelectField('select_jenis_toppgun', choices=[(1, "Inovasi"),(2, "Technology")])
+    select_kategori_lean = SelectField('select_kategori_lean', choices=[(1, "Defect"),(2, "Waste")])
     upload_file = FileField(validators=[FileAllowed(('pdf','pptx'), 'Hanya diperbolehkan format pdf atau ppt')])
     sebutkan = TextAreaField()
 
