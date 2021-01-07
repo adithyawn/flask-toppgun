@@ -1,0 +1,92 @@
+#login-page {
+  background: url(../img/login-background.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 100vh; }
+  #login-page .dark-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    background: rgba(0, 0, 0, 0.5); }
+    #login-page .dark-overlay .login-inner {
+      padding-top: 25vh; }
+    #login-page .dark-overlay .btn {
+      padding: 10px 100px; }
+    #login-page .dark-overlay .header {
+      font-size: 70px; }
+    #login-page .dark-overlay .sub-header {
+      font-weight: 500; }
+    #login-page .dark-overlay .sub-sub-header {
+      font-weight: 300; }
+
+#login-modal .modal-dialog {
+  margin-top: 30vh;
+  width: 400px; }
+
+#delete-modal .modal-dialog {
+  margin-top: 10vh;
+  width: 400px; }
+
+#edit-modal .modal-dialog {
+  margin-top: 10vh;
+  width: 100% px; }
+
+#edit-modal-settings .modal-dialog {
+  margin-top: 10vh;
+  width: 600px; }
+
+.btn-rounded {
+  border-radius: 25px; }
+
+.form-label-width {
+  width: 150px; }
+
+.border-line-bottom {
+  border-bottom: lightgray 1px solid;
+  margin-bottom: 30px; }
+
+.bootstrap-select > .dropdown-toggle.bs-placeholder, .bootstrap-select > .dropdown-toggle.bs-placeholder:active, .bootstrap-select > .dropdown-toggle.bs-placeholder:focus, .bootstrap-select > .dropdown-toggle.bs-placeholder:hover {
+  background: white;
+  border: 1px solid #ced4da; }
+
+/* CSS TABLE */
+.body-input #datatables_wrapper .exportexcel {
+  color: white;
+  background: #28a745;
+  font-size: small;
+  display: none;
+  border: none; }
+.body-input .dataTables_length {
+  display: inline; }
+
+#datatables_wrapper .exportexcel {
+  color: white;
+  background: #28a745;
+  font-size: small;
+  display: inline;
+  border: none; }
+
+.dataTables_filter {
+  float: right;
+  display: inline; }
+
+/*******************************/
+.margin-footer {
+  margin-top: 140px; }
+
+.max-lines {
+  word-wrap: break-word;
+  overflow: hidden;
+  max-height: 270px;
+  line-height: 1.3rem;
+  font-size: small;
+  text-overflow: ellipsis; }
+
+.font-small {
+  line-height: 1.3rem;
+  font-size: small; }
+
+/*# sourceMappingURL=style.css.map */
